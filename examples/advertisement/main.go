@@ -3,7 +3,7 @@ package main
 import (
 	"time"
 
-	"github.com/lacendarko/bluetooth"
+	"tinygo.org/x/bluetooth"
 )
 
 var adapter = bluetooth.DefaultAdapter

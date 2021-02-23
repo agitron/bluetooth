@@ -2,7 +2,7 @@
 
 [![Go Bluetooth](./images/gobluetooth.png)](https://tinygo.org/bluetooth)
 
-[![PkgGoDev](https://pkg.go.dev/badge/pkg.go.dev/github.com/lacendarko/bluetooth)](https://pkg.go.dev/github.com/lacendarko/bluetooth)
+[![PkgGoDev](https://pkg.go.dev/badge/pkg.go.dev/tinygo.org/x/bluetooth)](https://pkg.go.dev/tinygo.org/x/bluetooth)
 [![CircleCI](https://circleci.com/gh/tinygo-org/bluetooth/tree/dev.svg?style=svg)](https://circleci.com/gh/tinygo-org/bluetooth/tree/dev)
 
 Go Bluetooth is a cross-platform package for using [Bluetooth Low Energy](https://en.wikipedia.org/wiki/Bluetooth_Low_Energy) hardware from the Go programming language.
@@ -23,7 +23,7 @@ This example shows a central that scans for peripheral devices and then displays
 package main
 
 import (
-	"github.com/lacendarko/bluetooth"
+	"tinygo.org/x/bluetooth"
 )
 
 var adapter = bluetooth.DefaultAdapter
@@ -59,7 +59,7 @@ package main
 import (
 	"time"
 
-	"github.com/lacendarko/bluetooth"
+	"tinygo.org/x/bluetooth"
 )
 
 var adapter = bluetooth.DefaultAdapter

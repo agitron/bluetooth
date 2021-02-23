@@ -20,7 +20,7 @@
 package main
 
 import (
-	"github.com/lacendarko/bluetooth"
+	"tinygo.org/x/bluetooth"
 )
 
 var (

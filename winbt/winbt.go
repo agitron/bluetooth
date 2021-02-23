@@ -14,7 +14,7 @@
 // https://yizhang82.dev/what-is-winrt
 // https://www.slideshare.net/goldshtn/deep-dive-into-winrt
 //
-package winbt // import "github.com/lacendarko/bluetooth/winbt"
+package winbt // import "tinygo.org/x/bluetooth/winbt"
 
 import (
 	"github.com/go-ole/go-ole"

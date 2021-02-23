@@ -120,9 +120,9 @@ func makeScanResult(prph cbgo.Peripheral, advFields cbgo.AdvFields, rssi int) Sc
 		},
 		AdvertisementPayload: &advertisementFields{
 			AdvertisementFields{
-				LocalName:        advFields.LocalName,
-				ServiceUUIDs:     serviceUUIDs,
-				ManufacturerData: advFields.ManufacturerData,
+				LocalName:    advFields.LocalName,
+				ServiceUUIDs: serviceUUIDs,
+				// ManufacturerData: advFields.ManufacturerData,
 			},
 		},
 	}
