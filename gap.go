@@ -3,6 +3,8 @@ package bluetooth
 import (
 	"errors"
 	"time"
+
+	"github.com/godbus/dbus/v5"
 )
 
 var (
@@ -128,7 +130,10 @@ type AdvertisementPayload interface {
 	Bytes() []byte
 
 	// GetManufacturerData returns raw packet
-	GetManufacturerData() map[uint16]interface{}
+	GetManufacturerData(key uint16) []byte
+
+	// GetServiceData returns raw packet
+	GetServiceData(key string) ([]byte, map[string]interface{})
 }
 
 // AdvertisementFields contains advertisement fields in structured form.
@@ -144,6 +149,9 @@ type AdvertisementFields struct {
 
 	// ManufacturerData package
 	ManufacturerData map[uint16]interface{}
+
+	// ServiceData package
+	ServiceData map[string]interface{}
 }
 
 // advertisementFields wraps AdvertisementFields to implement the
@@ -171,8 +179,21 @@ func (p *advertisementFields) HasServiceUUID(uuid UUID) bool {
 }
 
 // GetManufacturerData
-func (p *advertisementFields) GetManufacturerData() map[uint16]interface{} {
-	return p.ManufacturerData
+func (p *advertisementFields) GetManufacturerData(key uint16) []byte {
+	if p.ManufacturerData[key] != nil {
+		temp := p.ManufacturerData[key].(dbus.Variant)
+		return temp.Value().([]byte)
+	}
+	return nil
+}
+
+// GetManufacturerData
+func (p *advertisementFields) GetServiceData(key string) ([]byte, map[string]interface{}) {
+	if p.ServiceData[key] != nil {
+		temp := p.ServiceData[key].(dbus.Variant)
+		return temp.Value().([]byte), p.ServiceData
+	}
+	return nil, p.ServiceData
 }
 
 // Bytes returns nil, as structured advertisement data does not have the
