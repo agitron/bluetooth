@@ -126,6 +126,9 @@ type AdvertisementPayload interface {
 	// Bytes returns the raw advertisement packet, if available. It returns nil
 	// if this data is not available.
 	Bytes() []byte
+
+	// GetManufacturerData returns raw packet
+	GetManufacturerData() map[uint16]interface{}
 }
 
 // AdvertisementFields contains advertisement fields in structured form.
@@ -138,6 +141,9 @@ type AdvertisementFields struct {
 	// part of the advertisement packet, in data types such as "complete list of
 	// 128-bit UUIDs".
 	ServiceUUIDs []UUID
+
+	// ManufacturerData package
+	ManufacturerData map[uint16]interface{}
 }
 
 // advertisementFields wraps AdvertisementFields to implement the
@@ -162,6 +168,11 @@ func (p *advertisementFields) HasServiceUUID(uuid UUID) bool {
 		}
 	}
 	return false
+}
+
+// GetManufacturerData
+func (p *advertisementFields) GetManufacturerData() map[uint16]interface{} {
+	return p.ManufacturerData
 }
 
 // Bytes returns nil, as structured advertisement data does not have the

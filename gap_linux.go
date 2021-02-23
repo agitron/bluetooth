@@ -227,8 +227,9 @@ func makeScanResult(props *device.Device1Properties) ScanResult {
 		Address: a,
 		AdvertisementPayload: &advertisementFields{
 			AdvertisementFields{
-				LocalName:    props.Name,
-				ServiceUUIDs: serviceUUIDs,
+				LocalName:        props.Name,
+				ServiceUUIDs:     serviceUUIDs,
+				ManufacturerData: props.ManufacturerData,
 			},
 		},
 	}

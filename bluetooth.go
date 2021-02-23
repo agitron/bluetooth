@@ -6,4 +6,4 @@
 //
 // This package can be use to create Bluetooth Low Energy centrals as well as peripherals.
 //
-package bluetooth // import "tinygo.org/x/bluetooth"
+package bluetooth // import "github.com/lacendarko/bluetooth"
