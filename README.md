@@ -2,12 +2,12 @@
 
 [![Go Bluetooth](./images/gobluetooth.png)](https://tinygo.org/bluetooth)
 
-[![PkgGoDev](https://pkg.go.dev/badge/pkg.go.dev/tinygo.org/x/bluetooth)](https://pkg.go.dev/tinygo.org/x/bluetooth)
+[![PkgGoDev](https://pkg.go.dev/badge/pkg.go.dev/github.com/lacendarko/bluetooth)](https://pkg.go.dev/github.com/lacendarko/bluetooth)
 [![CircleCI](https://circleci.com/gh/tinygo-org/bluetooth/tree/dev.svg?style=svg)](https://circleci.com/gh/tinygo-org/bluetooth/tree/dev)
 
-Go Bluetooth is a cross-platform package for using [Bluetooth Low Energy](https://en.wikipedia.org/wiki/Bluetooth_Low_Energy) hardware from the Go programming language. 
+Go Bluetooth is a cross-platform package for using [Bluetooth Low Energy](https://en.wikipedia.org/wiki/Bluetooth_Low_Energy) hardware from the Go programming language.
 
-It works on typical operating systems such as [Linux](#linux), [macOS](#macos), and [Windows](#windows). 
+It works on typical operating systems such as [Linux](#linux), [macOS](#macos), and [Windows](#windows).
 
 It can also be used running "bare metal" on microcontrollers produced by [Nordic Semiconductor](https://www.nordicsemi.com/) by using [TinyGo](https://tinygo.org/).
 
@@ -23,7 +23,7 @@ This example shows a central that scans for peripheral devices and then displays
 package main
 
 import (
-	"tinygo.org/x/bluetooth"
+	"github.com/lacendarko/bluetooth"
 )
 
 var adapter = bluetooth.DefaultAdapter
@@ -59,7 +59,7 @@ package main
 import (
 	"time"
 
-	"tinygo.org/x/bluetooth"
+	"github.com/lacendarko/bluetooth"
 )
 
 var adapter = bluetooth.DefaultAdapter
@@ -73,7 +73,7 @@ func main() {
 	must("config adv", adv.Configure(bluetooth.AdvertisementOptions{
 		LocalName: "Go Bluetooth",
   	}))
-  
+
   	// Start advertising
 	must("start adv", adv.Start())
 
@@ -107,7 +107,7 @@ func must(action string, err error) {
 
 ## Linux
 
-Go Bluetooth support for Linux uses [BlueZ](http://www.bluez.org/) via the [D-Bus](https://en.wikipedia.org/wiki/D-Bus) interface thanks to the https://github.com/muka/go-bluetooth package. This should work with most distros that support BlueZ such as Ubuntu, Debian, Fedora, and Arch Linux, among others. 
+Go Bluetooth support for Linux uses [BlueZ](http://www.bluez.org/) via the [D-Bus](https://en.wikipedia.org/wiki/D-Bus) interface thanks to the https://github.com/muka/go-bluetooth package. This should work with most distros that support BlueZ such as Ubuntu, Debian, Fedora, and Arch Linux, among others.
 
 Linux can be used both as a BLE Central or as a BLE Peripheral.
 
@@ -115,25 +115,25 @@ Linux can be used both as a BLE Central or as a BLE Peripheral.
 
 You need to have a fairly recent version of BlueZ, for example v5.48 is the latest released version for Ubuntu/Debian.
 
-	sudo apt update
-	sudo apt install bluez
+    sudo apt update
+    sudo apt install bluez
 
 Once you have done this, you can obtain the Go Bluetooth package using Git:
 
-	git clone https://github.com/tinygo-org/bluetooth.git
+    git clone https://github.com/tinygo-org/bluetooth.git
 
 ### Compiling
 
 After you have followed the installation, you should be able to compile/run the "scanner" test program:
 
-	cd bluetooth
-	go run ./examples/scanner
+    cd bluetooth
+    go run ./examples/scanner
 
 ## macOS
 
-Go Bluetooth support for macOS uses the [CoreBluetooth](https://developer.apple.com/documentation/corebluetooth?language=objc) libraries thanks to the https://github.com/JuulLabs-OSS/cbgo package. 
+Go Bluetooth support for macOS uses the [CoreBluetooth](https://developer.apple.com/documentation/corebluetooth?language=objc) libraries thanks to the https://github.com/JuulLabs-OSS/cbgo package.
 
-As a result, it should work with most versions of macOS, although it will require compiling using whatever specific version of XCode is required by your version of the operating system. 
+As a result, it should work with most versions of macOS, although it will require compiling using whatever specific version of XCode is required by your version of the operating system.
 
 The macOS support only can only act as a BLE Central at this time, with some additional development work needed for full functionality.
 
@@ -141,18 +141,18 @@ The macOS support only can only act as a BLE Central at this time, with some add
 
 In order to compile Go Bluetooth code targeting macOS, you must do so on macOS itself. In other words, we do not currently have cross compiler support. You must also have XCode tools installed:
 
-	xcode-select --install
+    xcode-select --install
 
 Once you have done this, you can obtain the Go Bluetooth package using Git:
 
-	git clone https://github.com/tinygo-org/bluetooth.git
+    git clone https://github.com/tinygo-org/bluetooth.git
 
 ### Compiling
 
 After you have followed the installation, you should be able to compile/run the "scanner" test program:
 
-	cd bluetooth
-	go run ./examples/scanner
+    cd bluetooth
+    go run ./examples/scanner
 
 ## Windows
 
@@ -166,18 +166,18 @@ For specifics please see https://github.com/tinygo-org/bluetooth/issues/13
 
 Once you have done this, you can obtain the Go Bluetooth package using Git:
 
-	git clone https://github.com/tinygo-org/bluetooth.git
+    git clone https://github.com/tinygo-org/bluetooth.git
 
 ### Compiling
 
 After you have followed the installation, you should be able to compile/run the "scanner" test program:
 
-	cd bluetooth
-	go run .\examples\scanner
+    cd bluetooth
+    go run .\examples\scanner
 
 ## Nordic Semiconductor
 
-Go Bluetooth has bare metal support for several chips from Nordic Semiconductor that include a built-in Bluetooth Low Energy radio. 
+Go Bluetooth has bare metal support for several chips from Nordic Semiconductor that include a built-in Bluetooth Low Energy radio.
 
 This support requires compiling your programs using [TinyGo](https://tinygo.org/).
 
@@ -187,11 +187,11 @@ The Nordic Semiconductor SoftDevice can be used both as a BLE Central or as a BL
 
 ### Installation
 
-You must install TinyGo to be able to compile bare metal code using Go Bluetooth. Follow the instructions for your operating system at https://tinygo.org/getting-started/  
+You must install TinyGo to be able to compile bare metal code using Go Bluetooth. Follow the instructions for your operating system at https://tinygo.org/getting-started/
 
 Once you have installed TinyGo, you can install the Go Bluetooth package by running:
 
-	git clone https://github.com/tinygo-org/bluetooth.git
+    git clone https://github.com/tinygo-org/bluetooth.git
 
 Check your desired target board for any additional installation requirements.
 
@@ -199,16 +199,16 @@ Check your desired target board for any additional installation requirements.
 
 The line of "Bluefruit" boards created by Adafruit already have the SoftDevice firmware pre-loaded. This means you can use TinyGo and the Go Bluetooth package without any additional steps required. Supported Adafruit boards include:
 
-* [Adafruit Circuit Playground Bluefruit](https://www.adafruit.com/product/4333)
-* [Adafruit CLUE Alpha](https://www.adafruit.com/product/4500)
-* [Adafruit Feather nRF52840 Express](https://www.adafruit.com/product/4062)
-* [Adafruit ItsyBitsy nRF52840](https://www.adafruit.com/product/4481)
+- [Adafruit Circuit Playground Bluefruit](https://www.adafruit.com/product/4333)
+- [Adafruit CLUE Alpha](https://www.adafruit.com/product/4500)
+- [Adafruit Feather nRF52840 Express](https://www.adafruit.com/product/4062)
+- [Adafruit ItsyBitsy nRF52840](https://www.adafruit.com/product/4481)
 
 After you have installed TinyGo and the Go Bluetooth package, you should be able to compile/run code for your device.
 
 For example, this command can be used to compile and flash an Adafruit Circuit Playground Bluefruit board with the example we provide that turns it into a BLE server to control the built-in NeoPixel LEDs:
 
-	tinygo flash -target circuitplay-bluefruit ./examples/circuitplay
+    tinygo flash -target circuitplay-bluefruit ./examples/circuitplay
 
 ### BBC micro:bit
 
@@ -218,7 +218,7 @@ You will need to install OpenOCD (http://openocd.org/) to flash the board.
 
 First, flash the SoftDevice firmware by copying the .hex file to the device. For example (on Linux):
 
-	cd bluetooth
+    cd bluetooth
     cp ./s110_nrf51_8.0.0/s110_nrf51_8.0.0_softdevice.hex /media/yourusername/MICROBIT/
 
 Once you have copied the SoftDevice firmware to the BBC micro:bit, you can then flash your TinyGo program:
@@ -229,9 +229,9 @@ Once you have copied the SoftDevice firmware to the BBC micro:bit, you can then 
 
 The following Nordic Semiconductor chips are currently supported:
 
-* [nRF51822](https://www.nordicsemi.com/Products/Low-power-short-range-wireless/nRF51822) with the [S110](https://www.nordicsemi.com/Software-and-Tools/Software/S110) SoftDevice (version 8). This SoftDevice does not support all features (e.g. scanning).
-* [nRF52832](https://www.nordicsemi.com/Products/Low-power-short-range-wireless/nRF52832) with the [S132](https://www.nordicsemi.com/Software-and-Tools/Software/S132) SoftDevice (version 6).
-* [nRF52840](https://www.nordicsemi.com/Products/Low-power-short-range-wireless/nRF52840) with the [S140](https://www.nordicsemi.com/Software-and-Tools/Software/S140) SoftDevice (version 6 and 7).
+- [nRF51822](https://www.nordicsemi.com/Products/Low-power-short-range-wireless/nRF51822) with the [S110](https://www.nordicsemi.com/Software-and-Tools/Software/S110) SoftDevice (version 8). This SoftDevice does not support all features (e.g. scanning).
+- [nRF52832](https://www.nordicsemi.com/Products/Low-power-short-range-wireless/nRF52832) with the [S132](https://www.nordicsemi.com/Software-and-Tools/Software/S132) SoftDevice (version 6).
+- [nRF52840](https://www.nordicsemi.com/Products/Low-power-short-range-wireless/nRF52840) with the [S140](https://www.nordicsemi.com/Software-and-Tools/Software/S140) SoftDevice (version 6 and 7).
 
 ### Flashing the SoftDevice on Other Boards
 
@@ -254,15 +254,15 @@ Flashing will normally reset the board.
 
 Some things that will probably change:
 
-  * Add options to the `Scan` method, for example to filter on UUID.
-  * Extra options to the `Enable` function, to request particular features (such as the number of peripheral connections supported).
+- Add options to the `Scan` method, for example to filter on UUID.
+- Extra options to the `Enable` function, to request particular features (such as the number of peripheral connections supported).
 
 This package will probably remain unstable until the following has been implemented:
 
-  * Scan filters. For example, to filter on service UUID.
-  * Bonding and private addresses.
-  * Full support for all features at least two desktop operating systems.
-  * Maybe some Bluetooth Classic support, such as A2DP.
+- Scan filters. For example, to filter on service UUID.
+- Bonding and private addresses.
+- Full support for all features at least two desktop operating systems.
+- Maybe some Bluetooth Classic support, such as A2DP.
 
 ## Contributing
 
