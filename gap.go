@@ -3,6 +3,8 @@ package bluetooth
 import (
 	"errors"
 	"time"
+
+	"github.com/godbus/dbus/v5"
 )
 
 var (
@@ -128,7 +130,7 @@ type AdvertisementPayload interface {
 	Bytes() []byte
 
 	// GetManufacturerData returns raw packet
-	GetManufacturerData() map[uint16]interface{}
+	GetManufacturerData(key uint16) []byte
 }
 
 // AdvertisementFields contains advertisement fields in structured form.
@@ -171,8 +173,12 @@ func (p *advertisementFields) HasServiceUUID(uuid UUID) bool {
 }
 
 // GetManufacturerData
-func (p *advertisementFields) GetManufacturerData() map[uint16]interface{} {
-	return p.ManufacturerData
+func (p *advertisementFields) GetManufacturerData(key uint16) []byte {
+	if p.ManufacturerData[key] != nil {
+		temp := p.ManufacturerData[key].(dbus.Variant)
+		return temp.Value().([]byte)
+	}
+	return nil
 }
 
 // Bytes returns nil, as structured advertisement data does not have the

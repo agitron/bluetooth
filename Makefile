@@ -31,11 +31,11 @@ smoketest-tinygo:
 
 smoketest-linux:
 	# Test on Linux.
-	GOOS=linux go build -o /tmp/go-build-discard ./examples/advertisement
-	GOOS=linux go build -o /tmp/go-build-discard ./examples/heartrate
-	GOOS=linux go build -o /tmp/go-build-discard ./examples/nusserver
-	GOOS=linux go build -o /tmp/go-build-discard ./examples/scanner
-	GOOS=linux go build -o /tmp/go-build-discard ./examples/discover
+	# GOOS=linux go build -o /tmp/go-build-discard ./examples/advertisement
+	# GOOS=linux go build -o /tmp/go-build-discard ./examples/heartrate
+	# GOOS=linux go build -o /tmp/go-build-discard ./examples/nusserver
+	GOOS=linux GOARCH=arm GOARM=5 go build -o /Users/darkolacen/tmp/go-scanner ./examples/scanner
+	# GOOS=linux go build -o /tmp/go-build-discard ./examples/discover
 
 smoketest-windows:
 	# Test on Windows.
