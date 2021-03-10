@@ -18,29 +18,19 @@ func main() {
 	adv := adapter.DefaultAdvertisement()
 	must("config adv", adv.Configure(bluetooth.AdvertisementOptions{
 		LocalName:    "Go HRS",
-		ServiceUUIDs: []bluetooth.UUID{bluetooth.New16BitUUID(0x2A37)},
+		ServiceUUIDs: []bluetooth.UUID{bluetooth.ServiceUUIDHeartRate},
 	}))
 	must("start adv", adv.Start())
 
 	var heartRateMeasurement bluetooth.Characteristic
 	must("add service", adapter.AddService(&bluetooth.Service{
-		UUID: bluetooth.New16BitUUID(0x180D), // Heart Rate
+		UUID: bluetooth.ServiceUUIDHeartRate,
 		Characteristics: []bluetooth.CharacteristicConfig{
 			{
 				Handle: &heartRateMeasurement,
-				UUID:   bluetooth.New16BitUUID(0x2A37), // Heart Rate Measurement
+				UUID:   bluetooth.CharacteristicUUIDHeartRateMeasurement,
 				Value:  []byte{0, heartRate},
-				Flags: bluetooth.CharacteristicReadPermission | bluetooth.CharacteristicWritePermission |
-					bluetooth.CharacteristicNotifyPermission,
-				WriteEvent: func(client bluetooth.Connection, offset int, value []byte) {
-					if offset != 0 || len(value) < 2 {
-						return
-					}
-					if value[1] != 0 { // avoid divide by zero
-						heartRate = value[1]
-						println("heart rate is now:", heartRate)
-					}
-				},
+				Flags:  bluetooth.CharacteristicNotifyPermission,
 			},
 		},
 	}))
@@ -55,7 +45,7 @@ func main() {
 		heartRate = randomInt(65, 85)
 
 		// and push the next notification
-		heartRateMeasurement.Write([]byte{byte(heartRate)})
+		heartRateMeasurement.Write([]byte{0, heartRate})
 	}
 }
 
