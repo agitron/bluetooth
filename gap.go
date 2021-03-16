@@ -133,7 +133,7 @@ type AdvertisementPayload interface {
 	GetManufacturerData(key uint16) []byte
 
 	// GetServiceData returns raw packet
-	GetServiceData(key uint16) []byte
+	GetServiceData(key string) []byte
 }
 
 // AdvertisementFields contains advertisement fields in structured form.
@@ -151,7 +151,7 @@ type AdvertisementFields struct {
 	ManufacturerData map[uint16]interface{}
 
 	// ServiceData package
-	ServiceData map[uint16]interface{}
+	ServiceData map[string]interface{}
 }
 
 // advertisementFields wraps AdvertisementFields to implement the
@@ -188,7 +188,7 @@ func (p *advertisementFields) GetManufacturerData(key uint16) []byte {
 }
 
 // GetManufacturerData
-func (p *advertisementFields) GetServiceData(key uint16) []byte {
+func (p *advertisementFields) GetServiceData(key string) []byte {
 	if p.ServiceData[key] != nil {
 		temp := p.ServiceData[key].(dbus.Variant)
 		return temp.Value().([]byte)
