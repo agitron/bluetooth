@@ -88,7 +88,7 @@ func (a *Adapter) Scan(callback func(*Adapter, ScanResult)) error {
 	// This appears to be necessary to receive any BLE discovery results at all.
 	defer a.adapter.SetDiscoveryFilter(nil)
 	err := a.adapter.SetDiscoveryFilter(map[string]interface{}{
-		"Transport": "le",
+		"Transport": "auto",
 	})
 	if err != nil {
 		return err
