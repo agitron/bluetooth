@@ -17,7 +17,7 @@ func main() {
 	must("enable BLE stack", adapter.Enable())
 
 	// Start scanning.
-	println("scanning...123")
+	println("scanning...")
 	err := adapter.Scan(func(adapter *bluetooth.Adapter, device bluetooth.ScanResult) {
 		println("found device:", device.Address.String(), device.RSSI, device.LocalName())
 		md := device.AdvertisementPayload.GetManufacturerData(manufacturerKey)

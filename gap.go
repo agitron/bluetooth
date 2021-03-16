@@ -131,6 +131,9 @@ type AdvertisementPayload interface {
 
 	// GetManufacturerData returns raw packet
 	GetManufacturerData(key uint16) []byte
+
+	// GetServiceData returns raw packet
+	GetServiceData(key uint16) []byte
 }
 
 // AdvertisementFields contains advertisement fields in structured form.
@@ -146,6 +149,9 @@ type AdvertisementFields struct {
 
 	// ManufacturerData package
 	ManufacturerData map[uint16]interface{}
+
+	// ServiceData package
+	ServiceData map[uint16]interface{}
 }
 
 // advertisementFields wraps AdvertisementFields to implement the
@@ -176,6 +182,15 @@ func (p *advertisementFields) HasServiceUUID(uuid UUID) bool {
 func (p *advertisementFields) GetManufacturerData(key uint16) []byte {
 	if p.ManufacturerData[key] != nil {
 		temp := p.ManufacturerData[key].(dbus.Variant)
+		return temp.Value().([]byte)
+	}
+	return nil
+}
+
+// GetManufacturerData
+func (p *advertisementFields) GetServiceData(key uint16) []byte {
+	if p.ServiceData[key] != nil {
+		temp := p.ServiceData[key].(dbus.Variant)
 		return temp.Value().([]byte)
 	}
 	return nil
