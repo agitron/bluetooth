@@ -3,7 +3,6 @@
 package bluetooth
 
 import (
-	"context"
 	"strings"
 
 	"github.com/davecgh/go-spew/spew"
@@ -276,40 +275,4 @@ func (a *Adapter) Connect(address Addresser, params ConnectionParams) (*Device, 
 // wait until the connection is fully gone.
 func (d *Device) Disconnect() error {
 	return d.device.Disconnect()
-}
-
-// WatchDeviceChanges watch for properties changes
-func (d *Device) WatchDeviceChanges(ctx context.Context) (chan bool, error) {
-
-	propchanged, err := d.Device.WatchProperties()
-	if err != nil {
-		return nil, err
-	}
-
-	ch := make(chan bool)
-
-	go func() {
-		for {
-			select {
-			case changed := <-propchanged:
-
-				if changed == nil {
-					ctx.Done()
-					return
-				}
-
-				if changed.Name == "ManufacturerData" || changed.Name == "ServiceData" {
-					ch <- b.Parse()
-				}
-
-				break
-			case <-ctx.Done():
-				propchanged <- nil
-				close(ch)
-				break
-			}
-		}
-	}()
-
-	return ch, nil
 }
