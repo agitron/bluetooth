@@ -4,8 +4,9 @@ go 1.15
 
 require (
 	github.com/JuulLabs-OSS/cbgo v0.0.2
+	github.com/davecgh/go-spew v1.1.1
 	github.com/go-ole/go-ole v1.2.4
-	github.com/godbus/dbus v4.1.0+incompatible
+	github.com/godbus/dbus v4.1.0+incompatible // indirect
 	github.com/godbus/dbus/v5 v5.0.3
 	github.com/muka/go-bluetooth v0.0.0-20200619025933-f6113f7141c5
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect

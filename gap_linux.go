@@ -3,8 +3,10 @@
 package bluetooth
 
 import (
+	"context"
 	"strings"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/godbus/dbus/v5"
 	"github.com/muka/go-bluetooth/api"
 	"github.com/muka/go-bluetooth/bluez/profile/advertising"
@@ -174,6 +176,7 @@ func (a *Adapter) Scan(callback func(*Adapter, ScanResult)) error {
 				}
 				changes := sig.Body[1].(map[string]dbus.Variant)
 				props := devices[sig.Path]
+				spew.Dump(changes)
 				for field, val := range changes {
 					switch field {
 					case "RSSI":
@@ -273,4 +276,40 @@ func (a *Adapter) Connect(address Addresser, params ConnectionParams) (*Device, 
 // wait until the connection is fully gone.
 func (d *Device) Disconnect() error {
 	return d.device.Disconnect()
+}
+
+// WatchDeviceChanges watch for properties changes
+func (d *Device) WatchDeviceChanges(ctx context.Context) (chan bool, error) {
+
+	propchanged, err := d.Device.WatchProperties()
+	if err != nil {
+		return nil, err
+	}
+
+	ch := make(chan bool)
+
+	go func() {
+		for {
+			select {
+			case changed := <-propchanged:
+
+				if changed == nil {
+					ctx.Done()
+					return
+				}
+
+				if changed.Name == "ManufacturerData" || changed.Name == "ServiceData" {
+					ch <- b.Parse()
+				}
+
+				break
+			case <-ctx.Done():
+				propchanged <- nil
+				close(ch)
+				break
+			}
+		}
+	}()
+
+	return ch, nil
 }
