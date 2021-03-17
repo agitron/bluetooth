@@ -183,9 +183,9 @@ func (a *Adapter) Scan(callback func(*Adapter, ScanResult)) error {
 					case "UUIDs":
 						props.UUIDs = val.Value().([]string)
 					case "ServiceData":
-						props.ServiceData = val.Value().(map[string]interface{})
+						props.ServiceData = val.Value().(map[string]dbus.Variant)
 					case "ManufacturerData":
-						props.ManufacturerData = val.Value().(map[uint16]interface{})
+						props.ManufacturerData = val.Value().(map[uint16]dbus.Variant)
 					}
 				}
 				callback(a, makeScanResult(props))
