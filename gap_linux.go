@@ -184,6 +184,10 @@ func (a *Adapter) Scan(callback func(*Adapter, ScanResult)) error {
 						props.Name = val.Value().(string)
 					case "UUIDs":
 						props.UUIDs = val.Value().([]string)
+					case "ServiceData":
+						props.ServiceData = val.Value().(map[string]interface{})
+					case "ManufacturerData":
+						props.ManufacturerData = val.Value().(map[uint16]interface{})
 					}
 				}
 				callback(a, makeScanResult(props))
