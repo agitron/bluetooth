@@ -133,7 +133,7 @@ type AdvertisementPayload interface {
 	GetManufacturerData(key uint16) []byte
 
 	// GetServiceData returns raw packet
-	GetServiceData(key string) ([]byte, map[string]interface{})
+	GetServiceData(key string) ([]byte, map[string]dbus.Variant)
 }
 
 // AdvertisementFields contains advertisement fields in structured form.
@@ -148,10 +148,10 @@ type AdvertisementFields struct {
 	ServiceUUIDs []UUID
 
 	// ManufacturerData package
-	ManufacturerData map[uint16]interface{}
+	ManufacturerData map[uint16]dbus.Variant
 
 	// ServiceData package
-	ServiceData map[string]interface{}
+	ServiceData map[string]dbus.Variant
 }
 
 // advertisementFields wraps AdvertisementFields to implement the
@@ -180,18 +180,16 @@ func (p *advertisementFields) HasServiceUUID(uuid UUID) bool {
 
 // GetManufacturerData
 func (p *advertisementFields) GetManufacturerData(key uint16) []byte {
-	if p.ManufacturerData[key] != nil {
-		temp := p.ManufacturerData[key].(dbus.Variant)
-		return temp.Value().([]byte)
+	if p.ManufacturerData[key].Value() != nil {
+		return p.ManufacturerData[key].Value().([]byte)
 	}
 	return nil
 }
 
 // GetManufacturerData
-func (p *advertisementFields) GetServiceData(key string) ([]byte, map[string]interface{}) {
-	if p.ServiceData[key] != nil {
-		temp := p.ServiceData[key].(dbus.Variant)
-		return temp.Value().([]byte), p.ServiceData
+func (p *advertisementFields) GetServiceData(key string) ([]byte, map[string]dbus.Variant) {
+	if p.ServiceData[key].Value() != nil {
+		return p.ServiceData[key].Value().([]byte), p.ServiceData
 	}
 	return nil, p.ServiceData
 }
