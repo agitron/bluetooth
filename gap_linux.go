@@ -5,7 +5,6 @@ package bluetooth
 import (
 	"strings"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/godbus/dbus/v5"
 	"github.com/muka/go-bluetooth/api"
 	"github.com/muka/go-bluetooth/bluez/profile/advertising"
@@ -175,7 +174,6 @@ func (a *Adapter) Scan(callback func(*Adapter, ScanResult)) error {
 				}
 				changes := sig.Body[1].(map[string]dbus.Variant)
 				props := devices[sig.Path]
-				spew.Dump(changes)
 				for field, val := range changes {
 					switch field {
 					case "RSSI":
