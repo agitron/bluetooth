@@ -215,6 +215,11 @@ There are other boards with TinyGo support that also use the same UF2 bootloader
 * [Nice Keyboards nice!nano](https://nicekeyboards.com/products/nice-nano-v1-0)
 * [Makerdiary nRF52840 MDK USB Dongle](https://wiki.makerdiary.com/nrf52840-mdk-usb-dongle/)
 
+There are other boards with TinyGo support that also use the same UF2 bootloader with pre-loaded SoftDevice. They include:
+
+* [Nice Keyboards nice!nano](https://nicekeyboards.com/products/nice-nano-v1-0)
+* [Makerdiary nRF52840 MDK USB Dongle](https://wiki.makerdiary.com/nrf52840-mdk-usb-dongle/)
+
 ### BBC micro:bit
 
 #### Version 1
