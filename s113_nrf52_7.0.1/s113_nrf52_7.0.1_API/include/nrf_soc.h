@@ -144,6 +144,7 @@ enum NRF_SOC_SVCS
   SD_PPI_GROUP_GET            = SOC_SVC_BASE + 7,
   SD_FLASH_PAGE_ERASE         = SOC_SVC_BASE + 8,
   SD_FLASH_WRITE              = SOC_SVC_BASE + 9,
+  SD_FLASH_PROTECT            = SOC_SVC_BASE + 10,
   SD_PROTECTED_REGISTER_WRITE = SOC_SVC_BASE + 11,
   SD_MUTEX_NEW                            = SOC_SVC_BASE_NOT_AVAILABLE,
   SD_MUTEX_ACQUIRE                        = SOC_SVC_BASE_NOT_AVAILABLE + 1,
@@ -157,7 +158,6 @@ enum NRF_SOC_SVCS
   SD_POWER_RESET_REASON_CLR               = SOC_SVC_BASE_NOT_AVAILABLE + 9,
   SD_POWER_POF_ENABLE                     = SOC_SVC_BASE_NOT_AVAILABLE + 10,
   SD_POWER_POF_THRESHOLD_SET              = SOC_SVC_BASE_NOT_AVAILABLE + 11,
-  SD_POWER_POF_THRESHOLDVDDH_SET          = SOC_SVC_BASE_NOT_AVAILABLE + 12,
   SD_POWER_RAM_POWER_SET                  = SOC_SVC_BASE_NOT_AVAILABLE + 13,
   SD_POWER_RAM_POWER_CLR                  = SOC_SVC_BASE_NOT_AVAILABLE + 14,
   SD_POWER_RAM_POWER_GET                  = SOC_SVC_BASE_NOT_AVAILABLE + 15,
@@ -165,7 +165,6 @@ enum NRF_SOC_SVCS
   SD_POWER_GPREGRET_CLR                   = SOC_SVC_BASE_NOT_AVAILABLE + 17,
   SD_POWER_GPREGRET_GET                   = SOC_SVC_BASE_NOT_AVAILABLE + 18,
   SD_POWER_DCDC_MODE_SET                  = SOC_SVC_BASE_NOT_AVAILABLE + 19,
-  SD_POWER_DCDC0_MODE_SET                 = SOC_SVC_BASE_NOT_AVAILABLE + 20,
   SD_APP_EVT_WAIT                         = SOC_SVC_BASE_NOT_AVAILABLE + 21,
   SD_CLOCK_HFCLK_REQUEST                  = SOC_SVC_BASE_NOT_AVAILABLE + 22,
   SD_CLOCK_HFCLK_RELEASE                  = SOC_SVC_BASE_NOT_AVAILABLE + 23,
@@ -217,26 +216,6 @@ enum NRF_POWER_THRESHOLDS
   NRF_POWER_THRESHOLD_V28        /**< 2.8 Volts power failure threshold. */
 };
 
-/**@brief Power failure thresholds for high voltage */
-enum NRF_POWER_THRESHOLDVDDHS
-{
-  NRF_POWER_THRESHOLDVDDH_V27,       /**< 2.7 Volts power failure threshold. */
-  NRF_POWER_THRESHOLDVDDH_V28,       /**< 2.8 Volts power failure threshold. */
-  NRF_POWER_THRESHOLDVDDH_V29,       /**< 2.9 Volts power failure threshold. */
-  NRF_POWER_THRESHOLDVDDH_V30,       /**< 3.0 Volts power failure threshold. */
-  NRF_POWER_THRESHOLDVDDH_V31,       /**< 3.1 Volts power failure threshold. */
-  NRF_POWER_THRESHOLDVDDH_V32,       /**< 3.2 Volts power failure threshold. */
-  NRF_POWER_THRESHOLDVDDH_V33,       /**< 3.3 Volts power failure threshold. */
-  NRF_POWER_THRESHOLDVDDH_V34,       /**< 3.4 Volts power failure threshold. */
-  NRF_POWER_THRESHOLDVDDH_V35,       /**< 3.5 Volts power failure threshold. */
-  NRF_POWER_THRESHOLDVDDH_V36,       /**< 3.6 Volts power failure threshold. */
-  NRF_POWER_THRESHOLDVDDH_V37,       /**< 3.7 Volts power failure threshold. */
-  NRF_POWER_THRESHOLDVDDH_V38,       /**< 3.8 Volts power failure threshold. */
-  NRF_POWER_THRESHOLDVDDH_V39,       /**< 3.9 Volts power failure threshold. */
-  NRF_POWER_THRESHOLDVDDH_V40,       /**< 4.0 Volts power failure threshold. */
-  NRF_POWER_THRESHOLDVDDH_V41,       /**< 4.1 Volts power failure threshold. */
-  NRF_POWER_THRESHOLDVDDH_V42        /**< 4.2 Volts power failure threshold. */
-};
 
 
 /**@brief DC/DC converter modes. */
@@ -587,9 +566,6 @@ SVCALL(SD_POWER_USBREGSTATUS_GET, uint32_t, sd_power_usbregstatus_get(uint32_t *
 
 /**@brief Sets the power failure comparator threshold value.
  *
- * @note: Power failure comparator threshold setting. This setting applies both for normal voltage
- *        mode (supply connected to both VDD and VDDH) and high voltage mode (supply connected to
- *        VDDH only).
  *
  * @param[in] threshold The power-fail threshold value to use, see @ref NRF_POWER_THRESHOLDS.
  *
@@ -598,18 +574,6 @@ SVCALL(SD_POWER_USBREGSTATUS_GET, uint32_t, sd_power_usbregstatus_get(uint32_t *
  */
 SVCALL(SD_POWER_POF_THRESHOLD_SET, uint32_t, sd_power_pof_threshold_set(uint8_t threshold));
 
-/**@brief Sets the power failure comparator threshold value for high voltage.
- *
- * @note: Power failure comparator threshold setting for high voltage mode (supply connected to
- *        VDDH only). This setting does not apply for normal voltage mode (supply connected to both
- *        VDD and VDDH).
- *
- * @param[in] threshold The power-fail threshold value to use, see @ref NRF_POWER_THRESHOLDVDDHS.
- *
- * @retval ::NRF_SUCCESS The power failure threshold was set.
- * @retval ::NRF_ERROR_SOC_POWER_POF_THRESHOLD_UNKNOWN The power failure threshold is unknown.
- */
-SVCALL(SD_POWER_POF_THRESHOLDVDDH_SET, uint32_t, sd_power_pof_thresholdvddh_set(uint8_t threshold));
 
 /**@brief Writes the NRF_POWER->RAM[index].POWERSET register.
  *
@@ -665,7 +629,7 @@ SVCALL(SD_POWER_GPREGRET_CLR, uint32_t, sd_power_gpregret_clr(uint32_t gpregret_
  */
 SVCALL(SD_POWER_GPREGRET_GET, uint32_t, sd_power_gpregret_get(uint32_t gpregret_id, uint32_t *p_gpregret));
 
-/**@brief Enable or disable the DC/DC regulator for the regulator stage 1 (REG1).
+/**@brief Enable or disable the DC/DC regulator.
  *
  * @param[in] dcdc_mode The mode of the DCDC, see @ref NRF_POWER_DCDC_MODES.
  *
@@ -674,16 +638,6 @@ SVCALL(SD_POWER_GPREGRET_GET, uint32_t, sd_power_gpregret_get(uint32_t gpregret_
  */
 SVCALL(SD_POWER_DCDC_MODE_SET, uint32_t, sd_power_dcdc_mode_set(uint8_t dcdc_mode));
 
-/**@brief Enable or disable the DC/DC regulator for the regulator stage 0 (REG0).
- *
- * For more details on the REG0 stage, please see product specification.
- *
- * @param[in] dcdc_mode The mode of the DCDC0, see @ref NRF_POWER_DCDC_MODES.
- *
- * @retval ::NRF_SUCCESS
- * @retval ::NRF_ERROR_INVALID_PARAM The dcdc_mode is invalid.
- */
-SVCALL(SD_POWER_DCDC0_MODE_SET, uint32_t, sd_power_dcdc0_mode_set(uint8_t dcdc_mode));
 
 /**@brief Request the high frequency crystal oscillator.
  *
@@ -976,6 +930,27 @@ SVCALL(SD_FLASH_WRITE, uint32_t, sd_flash_write(uint32_t * p_dst, uint32_t const
 SVCALL(SD_FLASH_PAGE_ERASE, uint32_t, sd_flash_page_erase(uint32_t page_number));
 
 
+/**@brief Flash Protection set
+ *
+ * Commands to set the flash protection configuration registers.
+   This sets the CONFIGx registers of the BPROT peripheral.
+ *
+ * @note Not all parameters are valid for all products. Some bits in each parameter may not be
+ *       valid for your product. Please refer your Product Specification for more details.
+ *
+ * @note To read the values read them directly. They are only write-protected.
+ *
+ * @note It is possible to use @ref sd_protected_register_write instead of this function.
+ *
+ * @param[in]  block_cfg0 Value to be written to the configuration register.
+ * @param[in]  block_cfg1 Value to be written to the configuration register.
+ * @param[in]  block_cfg2 Value to be written to the configuration register.
+ * @param[in]  block_cfg3 Value to be written to the configuration register.
+ *
+ * @retval ::NRF_ERROR_NOT_SUPPORTED Non-zero value supplied to one or more of the unsupported parameters.
+ * @retval ::NRF_SUCCESS Values successfully written to configuration registers.
+ */
+SVCALL(SD_FLASH_PROTECT, uint32_t, sd_flash_protect(uint32_t block_cfg0, uint32_t block_cfg1, uint32_t block_cfg2, uint32_t block_cfg3));
 
 /**@brief Opens a session for radio timeslot requests.
  *
@@ -1054,7 +1029,7 @@ SVCALL(SD_FLASH_PAGE_ERASE, uint32_t, sd_flash_page_erase(uint32_t page_number))
  * This function writes to a register that is write-protected by the SoftDevice. Please refer to your
  * SoftDevice Specification for more details about which registers that are protected by SoftDevice.
  * This function can write to the following protected peripheral:
- *  - ACL
+ *  - BPROT
  *
  * @note Protected registers may be read directly.
  * @note Register that are write-once will return @ref NRF_SUCCESS on second set, even the value in
